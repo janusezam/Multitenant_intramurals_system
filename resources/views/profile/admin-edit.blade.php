@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.admin')
 @section('title', 'Profile')
 
 <div class="max-w-4xl mx-auto space-y-8">
@@ -7,7 +7,7 @@
         <div class="flex items-start gap-6">
             <!-- Avatar -->
             <div class="flex-shrink-0">
-                <div class="w-24 h-24 bg-gradient-to-br from-indigo-500 to-indigo-600 rounded-full flex items-center justify-center text-white text-4xl font-bold">
+                <div class="w-24 h-24 bg-gradient-to-br from-red-500 to-red-600 rounded-full flex items-center justify-center text-white text-4xl font-bold">
                     {{ strtoupper(substr(auth()->user()->name, 0, 1)) }}
                 </div>
             </div>
@@ -18,17 +18,9 @@
                 <p class="text-gray-600 mt-1">{{ auth()->user()->email }}</p>
 
                 <div class="flex items-center gap-3 mt-4">
-                    @foreach(auth()->user()->getRoleNames() as $role)
-                        <span class="inline-block bg-blue-100 text-blue-800 text-xs font-semibold px-3 py-1 rounded capitalize">
-                            {{ str_replace('-', ' ', $role) }}
-                        </span>
-                    @endforeach
-
-                    @if($university = auth()->user()->university)
-                        <span class="inline-block bg-indigo-100 text-indigo-800 text-xs font-semibold px-3 py-1 rounded">
-                            {{ $university->name }}
-                        </span>
-                    @endif
+                    <span class="inline-block bg-red-100 text-red-800 text-xs font-semibold px-3 py-1 rounded">
+                        Super Administrator
+                    </span>
                 </div>
 
                 <p class="text-sm text-gray-600 mt-4">
@@ -56,7 +48,7 @@
             <!-- Name -->
             <div>
                 <label class="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
-                <input type="text" name="name" value="{{ old('name', auth()->user()->name) }}" required class="w-full px-4 py-2 border @error('name') border-red-500 @else border-gray-300 @enderror rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                <input type="text" name="name" value="{{ old('name', auth()->user()->name) }}" required class="w-full px-4 py-2 border @error('name') border-red-500 @else border-gray-300 @enderror rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500">
                 @error('name')
                     <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
                 @enderror
@@ -65,7 +57,7 @@
             <!-- Email -->
             <div>
                 <label class="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
-                <input type="email" name="email" value="{{ old('email', auth()->user()->email) }}" required class="w-full px-4 py-2 border @error('email') border-red-500 @else border-gray-300 @enderror rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                <input type="email" name="email" value="{{ old('email', auth()->user()->email) }}" required class="w-full px-4 py-2 border @error('email') border-red-500 @else border-gray-300 @enderror rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500">
                 @error('email')
                     <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
                 @enderror
@@ -73,7 +65,7 @@
 
             <!-- Submit -->
             <div>
-                <button type="submit" class="px-6 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg font-medium transition">
+                <button type="submit" class="px-6 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg font-medium transition">
                     Save Changes
                 </button>
             </div>
@@ -98,7 +90,7 @@
             <!-- Current Password -->
             <div>
                 <label class="block text-sm font-medium text-gray-700 mb-1">Current Password</label>
-                <input type="password" name="current_password" required class="w-full px-4 py-2 border @error('current_password') border-red-500 @else border-gray-300 @enderror rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                <input type="password" name="current_password" required class="w-full px-4 py-2 border @error('current_password') border-red-500 @else border-gray-300 @enderror rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500">
                 @error('current_password')
                     <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
                 @enderror
@@ -107,7 +99,7 @@
             <!-- New Password -->
             <div>
                 <label class="block text-sm font-medium text-gray-700 mb-1">New Password</label>
-                <input type="password" name="password" required class="w-full px-4 py-2 border @error('password') border-red-500 @else border-gray-300 @enderror rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                <input type="password" name="password" required class="w-full px-4 py-2 border @error('password') border-red-500 @else border-gray-300 @enderror rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500">
                 @error('password')
                     <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
                 @enderror
@@ -116,12 +108,12 @@
             <!-- Confirm Password -->
             <div>
                 <label class="block text-sm font-medium text-gray-700 mb-1">Confirm New Password</label>
-                <input type="password" name="password_confirmation" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                <input type="password" name="password_confirmation" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500">
             </div>
 
             <!-- Submit -->
             <div>
-                <button type="submit" class="px-6 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg font-medium transition">
+                <button type="submit" class="px-6 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg font-medium transition">
                     Update Password
                 </button>
             </div>
