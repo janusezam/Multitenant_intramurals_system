@@ -1,5 +1,260 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>ISMS - Intramurals Sports Management System</title>
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
+</head>
+<body class="bg-white">
+    <!-- Navbar -->
+    <nav class="bg-white border-b border-gray-200 py-4">
+        <div class="max-w-6xl mx-auto px-6 flex items-center justify-between">
+            <div class="flex items-center gap-2">
+                <span class="text-2xl">🏆</span>
+                <span class="text-2xl font-bold text-gray-900">ISMS</span>
+            </div>
+            <div class="flex gap-4">
+                <a href="{{ route('login') }}" class="px-4 py-2 text-indigo-600 hover:text-indigo-700 font-medium">
+                    Login
+                </a>
+                <a href="{{ route('register') }}" class="px-4 py-2 border-2 border-indigo-600 text-indigo-600 hover:bg-indigo-50 rounded-lg font-medium">
+                    Register
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="bg-gradient-to-br from-indigo-900 to-gray-900 text-white py-20">
+        <div class="max-w-6xl mx-auto px-6 text-center">
+            <h1 class="text-5xl font-bold mb-4">Manage Your University Intramurals Smarter</h1>
+            <p class="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
+                A centralized platform for sports facilitators, coaches, and student players to manage games, teams, schedules, and standings.
+            </p>
+            <div class="flex gap-4 justify-center">
+                <a href="{{ route('register') }}" class="px-8 py-3 bg-indigo-600 hover:bg-indigo-700 rounded-lg font-semibold">
+                    Get Started
+                </a>
+                <a href="{{ route('login') }}" class="px-8 py-3 border-2 border-white text-white hover:bg-white hover:text-indigo-900 rounded-lg font-semibold">
+                    Login to Dashboard
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="py-20 bg-white">
+        <div class="max-w-6xl mx-auto px-6">
+            <h2 class="text-4xl font-bold text-center text-gray-900 mb-4">Everything You Need</h2>
+            <p class="text-center text-gray-600 mb-12">Comprehensive tools for managing university intramurals</p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Feature 1 -->
+                <div class="p-6 border border-gray-200 rounded-lg hover:shadow-lg transition-shadow">
+                    <span class="text-3xl mb-4 block">🏅</span>
+                    <h3 class="text-xl font-bold text-gray-900 mb-2">Sport Management</h3>
+                    <p class="text-gray-600">Create and manage multiple sport categories with dedicated facilitators.</p>
+                </div>
+
+                <!-- Feature 2 -->
+                <div class="p-6 border border-gray-200 rounded-lg hover:shadow-lg transition-shadow">
+                    <span class="text-3xl mb-4 block">👥</span>
+                    <h3 class="text-xl font-bold text-gray-900 mb-2">Team & Player Registry</h3>
+                    <p class="text-gray-600">Register teams and players with complete profiles and jersey numbers.</p>
+                </div>
+
+                <!-- Feature 3 -->
+                <div class="p-6 border border-gray-200 rounded-lg hover:shadow-lg transition-shadow">
+                    <span class="text-3xl mb-4 block">📅</span>
+                    <h3 class="text-xl font-bold text-gray-900 mb-2">Game Scheduling</h3>
+                    <p class="text-gray-600">Schedule games with venue assignments and automatic conflict detection.</p>
+                </div>
+
+                <!-- Feature 4 -->
+                <div class="p-6 border border-gray-200 rounded-lg hover:shadow-lg transition-shadow">
+                    <span class="text-3xl mb-4 block">🏆</span>
+                    <h3 class="text-xl font-bold text-gray-900 mb-2">Live Standings</h3>
+                    <p class="text-gray-600">Automatic standings updates after every match result is recorded.</p>
+                </div>
+
+                <!-- Feature 5 (Pro) -->
+                <div class="p-6 border border-gray-200 rounded-lg hover:shadow-lg transition-shadow">
+                    <div class="flex items-center justify-between mb-2">
+                        <span class="text-3xl">📊</span>
+                        <span class="text-xs font-bold bg-yellow-100 text-yellow-800 px-2 py-1 rounded">PRO</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-2">Analytics & Reports</h3>
+                    <p class="text-gray-600">Generate detailed reports and export to PDF or Excel.</p>
+                </div>
+
+                <!-- Feature 6 (Pro) -->
+                <div class="p-6 border border-gray-200 rounded-lg hover:shadow-lg transition-shadow">
+                    <div class="flex items-center justify-between mb-2">
+                        <span class="text-3xl">🎯</span>
+                        <span class="text-xs font-bold bg-yellow-100 text-yellow-800 px-2 py-1 rounded">PRO</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-2">Bracket Generator</h3>
+                    <p class="text-gray-600">Auto-generate elimination or round-robin brackets.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section class="py-20 bg-gray-50">
+        <div class="max-w-6xl mx-auto px-6">
+            <h2 class="text-4xl font-bold text-center text-gray-900 mb-4">Simple, Transparent Pricing</h2>
+            <p class="text-center text-gray-600 mb-12">Per academic year institutional licensing</p>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- Basic Plan -->
+                <div class="p-8 border-2 border-gray-300 rounded-lg bg-white">
+                    <h3 class="text-2xl font-bold text-gray-900 mb-2">Basic</h3>
+                    <p class="text-gray-600 mb-4">Per Academic Year</p>
+                    <p class="text-3xl font-bold text-gray-900 mb-6">Contact Us</p>
+                    <ul class="space-y-4 mb-8">
+                        <li class="flex items-center gap-3">
+                            <span>✅</span>
+                            <span class="text-gray-700">Up to 5 sports</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <span>✅</span>
+                            <span class="text-gray-700">Up to 200 players</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <span>✅</span>
+                            <span class="text-gray-700">Up to 10 teams per sport</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <span>✅</span>
+                            <span class="text-gray-700">Up to 50 user accounts</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <span>✅</span>
+                            <span class="text-gray-700">Game scheduling & venues</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <span>✅</span>
+                            <span class="text-gray-700">Match results & standings</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <span>✅</span>
+                            <span class="text-gray-700">Basic dashboard</span>
+                        </li>
+                    </ul>
+                    <a href="{{ route('register') }}" class="block w-full px-6 py-3 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg font-semibold text-center">
+                        Get Started
+                    </a>
+                </div>
+
+                <!-- Pro Plan -->
+                <div class="p-8 bg-indigo-600 text-white rounded-lg shadow-lg relative">
+                    <span class="absolute -top-4 left-6 bg-yellow-400 text-indigo-900 px-4 py-1 rounded-full text-sm font-bold">Most Popular</span>
+                    <h3 class="text-2xl font-bold mb-2">Pro ⭐</h3>
+                    <p class="text-indigo-200 mb-4">Per Academic Year</p>
+                    <p class="text-3xl font-bold mb-6">Contact Us</p>
+                    <ul class="space-y-4 mb-8">
+                        <li class="flex items-center gap-3">
+                            <span>✅</span>
+                            <span>Unlimited sports & teams</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <span>✅</span>
+                            <span>Unlimited players & users</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <span>✅</span>
+                            <span>📊 Advanced Analytics</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <span>✅</span>
+                            <span>🎯 Bracket Generator</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <span>✅</span>
+                            <span>📄 PDF & Excel Exports</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <span>✅</span>
+                            <span>📧 Email Notifications</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <span>✅</span>
+                            <span>Priority Support</span>
+                        </li>
+                    </ul>
+                    <a href="{{ route('register') }}" class="block w-full px-6 py-3 bg-white text-indigo-600 hover:bg-gray-100 rounded-lg font-semibold text-center">
+                        Get Started
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section class="py-20 bg-white">
+        <div class="max-w-6xl mx-auto px-6">
+            <h2 class="text-4xl font-bold text-center text-gray-900 mb-12">How It Works</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Step 1 -->
+                <div class="text-center">
+                    <div class="w-12 h-12 bg-indigo-600 text-white rounded-full flex items-center justify-center text-xl font-bold mb-4 mx-auto">
+                        1
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-2">Register Your University</h3>
+                    <p class="text-gray-600">Sign up and choose your plan. Your university gets its own space.</p>
+                </div>
+
+                <!-- Step 2 -->
+                <div class="text-center">
+                    <div class="w-12 h-12 bg-indigo-600 text-white rounded-full flex items-center justify-center text-xl font-bold mb-4 mx-auto">
+                        2
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-2">Set Up Your Sports</h3>
+                    <p class="text-gray-600">Add sports, venues, teams, and register players under your university.</p>
+                </div>
+
+                <!-- Step 3 -->
+                <div class="text-center">
+                    <div class="w-12 h-12 bg-indigo-600 text-white rounded-full flex items-center justify-center text-xl font-bold mb-4 mx-auto">
+                        3
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-2">Manage & Track</h3>
+                    <p class="text-gray-600">Schedule games, record results, and track standings all in one place.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-12">
+        <div class="max-w-6xl mx-auto px-6">
+            <div class="flex items-center justify-between mb-8">
+                <div class="flex items-center gap-2">
+                    <span class="text-2xl">🏆</span>
+                    <div>
+                        <span class="text-xl font-bold">ISMS</span>
+                        <p class="text-sm text-gray-400">Intramurals Management</p>
+                    </div>
+                </div>
+                <div class="flex gap-8">
+                    <a href="{{ route('login') }}" class="text-gray-300 hover:text-white transition-colors">
+                        Login
+                    </a>
+                    <a href="{{ route('register') }}" class="text-gray-300 hover:text-white transition-colors">
+                        Register
+                    </a>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 pt-8 text-center text-gray-400 text-sm">
+                © {{ date('Y') }} ISMS. Built for University Intramurals.
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
