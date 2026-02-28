@@ -199,5 +199,7 @@ $university = app('current_university');
             </main>
         </div>
     </div>
+
+    @stack('scripts')
 </body>
 </html>
