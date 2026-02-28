@@ -76,4 +76,31 @@ class User extends Authenticatable
     {
         return $this->hasMany(MatchResult::class, 'recorded_by');
     }
+
+    /**
+     * Get the redirect route and parameters for this user based on their role.
+     * Returns array with 'route' name and 'params' for dashboard redirect.
+     */
+    public function getDashboardRedirect(): array
+    {
+        if ($this->hasRole('super-admin')) {
+            return [
+                'route' => 'admin.dashboard',
+                'params' => [],
+            ];
+        }
+
+        if ($this->university) {
+            return [
+                'route' => 'tenant.dashboard',
+                'params' => ['university' => $this->university->slug],
+            ];
+        }
+
+        // Fallback
+        return [
+            'route' => 'home',
+            'params' => [],
+        ];
+    }
 }
