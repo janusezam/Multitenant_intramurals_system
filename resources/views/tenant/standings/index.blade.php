@@ -29,7 +29,7 @@
                     </div>
                 </div>
 
-                <a href="{{ route('tenant.standings.show', [$university->slug, $sport->slug]) }}" class="px-4 py-2 text-indigo-600 hover:text-indigo-800 font-medium">
+                <a href="{{ route('tenant.standings.show', [$university->slug, $sport]) }}" class="px-4 py-2 text-indigo-600 hover:text-indigo-800 font-medium">
                     View Full Standings →
                 </a>
             </div>

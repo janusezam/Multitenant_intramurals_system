@@ -214,7 +214,7 @@
                     </table>
                 </div>
 
-                <a href="{{ route('tenant.standings.show', [$university->slug, $sport->slug]) }}" class="text-indigo-600 hover:text-indigo-800 font-medium text-sm mt-3 inline-block">
+                <a href="{{ route('tenant.standings.show', [$university->slug, $sport]) }}" class="text-indigo-600 hover:text-indigo-800 font-medium text-sm mt-3 inline-block">
                     View Full Standings →
                 </a>
             </div>

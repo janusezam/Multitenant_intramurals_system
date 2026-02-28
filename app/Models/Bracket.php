@@ -23,6 +23,9 @@ class Bracket extends Model
     protected static function booted(): void
     {
         static::addGlobalScope(new TenantScope);
+        static::creating(function (self $model): void {
+            $model->university_id = app('current_university')->id;
+        });
     }
 
     public function university(): BelongsTo

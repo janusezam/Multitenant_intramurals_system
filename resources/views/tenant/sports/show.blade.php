@@ -156,8 +156,7 @@
         @endif
     </div>
 
-    <!-- Standings Section -->
-    <div class="bg-white rounded-lg shadow">
+            <div class="bg-white rounded-lg shadow">
         <div class="p-6 border-b border-gray-200">
             <h2 class="text-lg font-bold text-gray-900">Current Standings 🏆</h2>
         </div>
@@ -188,6 +187,19 @@
                                 <td class="px-6 py-4 text-center text-gray-700">{{ $standing->draws }}</td>
                                 <td class="px-6 py-4 text-center font-bold text-gray-900">{{ $standing->points }}</td>
                             </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+            <div class="p-6 border-t border-gray-200 text-right">
+                <a href="{{ route('tenant.standings.show', [$university->slug, $sport]) }}" class="text-indigo-600 hover:text-indigo-800 font-medium">View Full Standings</a>
+            </div>
+        @else
+            <div class="p-6 text-center text-gray-500">
+                No standings recorded for this sport yet.
+            </div>
+        @endif
+    </div>
                         @endforeach
                     </tbody>
                 </table>
