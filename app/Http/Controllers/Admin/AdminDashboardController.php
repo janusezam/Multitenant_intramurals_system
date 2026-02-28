@@ -41,14 +41,19 @@ class AdminDashboardController
             ])
             ->get();
 
+        $stats = [
+            'total_universities' => $totalUniversities,
+            'active_universities' => $activeUniversities,
+            'basic_plan' => $basicPlanUniversities,
+            'pro_plan' => $proPlanUniversities,
+            'total_users' => $totalUsers,
+            'total_sports' => $totalSports,
+            'total_players' => $totalPlayers,
+            'expiring_soon' => $expiringUniversities->count(),
+        ];
+
         return view('admin.dashboard', [
-            'totalUniversities' => $totalUniversities,
-            'activeUniversities' => $activeUniversities,
-            'basicPlanUniversities' => $basicPlanUniversities,
-            'proPlanUniversities' => $proPlanUniversities,
-            'totalUsers' => $totalUsers,
-            'totalSports' => $totalSports,
-            'totalPlayers' => $totalPlayers,
+            'stats' => $stats,
             'recentUniversities' => $recentUniversities,
             'expiringUniversities' => $expiringUniversities,
         ]);

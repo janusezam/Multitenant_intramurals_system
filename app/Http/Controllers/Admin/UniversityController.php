@@ -87,12 +87,18 @@ class UniversityController
             ->count();
         $totalPlayers = $university->players()->withoutGlobalScopes()->count();
 
+        $stats = [
+            'total_users' => $totalUsers,
+            'total_sports' => $totalSports,
+            'total_teams' => $totalTeams,
+            'total_players' => $totalPlayers,
+        ];
+
         return view('admin.universities.show', [
             'university' => $university,
-            'totalUsers' => $totalUsers,
-            'totalSports' => $totalSports,
-            'totalTeams' => $totalTeams,
-            'totalPlayers' => $totalPlayers,
+            'stats' => $stats,
+            'users' => $university->users,
+            'sports' => $university->sports,
         ]);
     }
 

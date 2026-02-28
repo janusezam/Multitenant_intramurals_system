@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class University extends Model
 {
@@ -32,6 +33,14 @@ class University extends Model
     public function subscriptions(): HasMany
     {
         return $this->hasMany(Subscription::class);
+    }
+
+    /**
+     * Get the current/latest subscription for this university.
+     */
+    public function subscription(): HasOne
+    {
+        return $this->hasOne(Subscription::class)->latest();
     }
 
     public function users(): HasMany

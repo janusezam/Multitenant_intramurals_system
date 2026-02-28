@@ -72,9 +72,12 @@ class VenueController
                 ->take(10);
         }]);
 
+        $schedules = $venue->schedules;
+
         return view('tenant.venues.show', [
             'university' => $university,
             'venue' => $venue,
+            'schedules' => $schedules,
         ]);
     }
 

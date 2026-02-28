@@ -200,20 +200,4 @@
             </div>
         @endif
     </div>
-                        @endforeach
-                    </tbody>
-                </table>
-            </div>
-
-            <div class="p-6 border-t border-gray-200 text-right">
-                <a href="{{ route('tenant.standings.show', [$university->slug, $sport->slug]) }}" class="text-indigo-600 hover:text-indigo-800 font-medium">
-                    View Full Standings →
-                </a>
-            </div>
-        @else
-            <div class="p-6 text-center text-gray-500">
-                No standings available yet.
-            </div>
-        @endif
-    </div>
 </div>

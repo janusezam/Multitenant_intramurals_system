@@ -1,5 +1,5 @@
 @php
-$university = app('current_university');
+$university = app()->has('current_university') ? app('current_university') : null;
 @endphp
 
 <!DOCTYPE html>
@@ -26,73 +26,88 @@ $university = app('current_university');
                         <p class="text-xs text-gray-400">Intramurals Management</p>
                     </div>
                 </div>
-                <span class="inline-block bg-indigo-600 text-white text-xs px-2 py-1 rounded">
-                    {{ $university->name }}
-                </span>
+                @if($university)
+                    <span class="inline-block bg-indigo-600 text-white text-xs px-2 py-1 rounded">
+                        {{ $university->name }}
+                    </span>
+                @endif
             </div>
 
             <!-- Navigation -->
             <nav class="flex-1 px-4 py-6 space-y-2">
-                <a href="{{ route('tenant.dashboard', $university->slug) }}"
-                    class="flex items-center gap-3 px-4 py-2 rounded transition-colors @if(request()->routeIs('tenant.dashboard')) bg-indigo-600 text-white @else text-gray-300 hover:bg-gray-800 hover:text-white @endif">
-                    <span>🏠</span>
-                    <span>Dashboard</span>
-                </a>
+                @if($university)
+                    <a href="{{ route('tenant.dashboard', $university->slug) }}"
+                        class="flex items-center gap-3 px-4 py-2 rounded transition-colors @if(request()->routeIs('tenant.dashboard')) bg-indigo-600 text-white @else text-gray-300 hover:bg-gray-800 hover:text-white @endif">
+                        <span>🏠</span>
+                        <span>Dashboard</span>
+                    </a>
 
-                <a href="{{ route('tenant.sports.index', $university->slug) }}"
-                    class="flex items-center gap-3 px-4 py-2 rounded transition-colors @if(request()->routeIs('tenant.sports.*')) bg-indigo-600 text-white @else text-gray-300 hover:bg-gray-800 hover:text-white @endif">
-                    <span>🏅</span>
-                    <span>Sports</span>
-                </a>
+                    <a href="{{ route('tenant.sports.index', $university->slug) }}"
+                        class="flex items-center gap-3 px-4 py-2 rounded transition-colors @if(request()->routeIs('tenant.sports.*')) bg-indigo-600 text-white @else text-gray-300 hover:bg-gray-800 hover:text-white @endif">
+                        <span>🏅</span>
+                        <span>Sports</span>
+                    </a>
 
-                <a href="{{ route('tenant.venues.index', $university->slug) }}"
-                    class="flex items-center gap-3 px-4 py-2 rounded transition-colors @if(request()->routeIs('tenant.venues.*')) bg-indigo-600 text-white @else text-gray-300 hover:bg-gray-800 hover:text-white @endif">
-                    <span>🏟️</span>
-                    <span>Venues</span>
-                </a>
+                    <a href="{{ route('tenant.venues.index', $university->slug) }}"
+                        class="flex items-center gap-3 px-4 py-2 rounded transition-colors @if(request()->routeIs('tenant.venues.*')) bg-indigo-600 text-white @else text-gray-300 hover:bg-gray-800 hover:text-white @endif">
+                        <span>🏟️</span>
+                        <span>Venues</span>
+                    </a>
 
-                <a href="{{ route('tenant.teams.index', $university->slug) }}"
-                    class="flex items-center gap-3 px-4 py-2 rounded transition-colors @if(request()->routeIs('tenant.teams.*')) bg-indigo-600 text-white @else text-gray-300 hover:bg-gray-800 hover:text-white @endif">
-                    <span>👥</span>
-                    <span>Teams</span>
-                </a>
+                    <a href="{{ route('tenant.teams.index', $university->slug) }}"
+                        class="flex items-center gap-3 px-4 py-2 rounded transition-colors @if(request()->routeIs('tenant.teams.*')) bg-indigo-600 text-white @else text-gray-300 hover:bg-gray-800 hover:text-white @endif">
+                        <span>👥</span>
+                        <span>Teams</span>
+                    </a>
 
-                <a href="{{ route('tenant.players.index', $university->slug) }}"
-                    class="flex items-center gap-3 px-4 py-2 rounded transition-colors @if(request()->routeIs('tenant.players.*')) bg-indigo-600 text-white @else text-gray-300 hover:bg-gray-800 hover:text-white @endif">
-                    <span>🎽</span>
-                    <span>Players</span>
-                </a>
+                    <a href="{{ route('tenant.players.index', $university->slug) }}"
+                        class="flex items-center gap-3 px-4 py-2 rounded transition-colors @if(request()->routeIs('tenant.players.*')) bg-indigo-600 text-white @else text-gray-300 hover:bg-gray-800 hover:text-white @endif">
+                        <span>🎽</span>
+                        <span>Players</span>
+                    </a>
 
-                <a href="{{ route('tenant.schedules.index', $university->slug) }}"
-                    class="flex items-center gap-3 px-4 py-2 rounded transition-colors @if(request()->routeIs('tenant.schedules.*')) bg-indigo-600 text-white @else text-gray-300 hover:bg-gray-800 hover:text-white @endif">
-                    <span>📅</span>
-                    <span>Schedules</span>
-                </a>
+                    <a href="{{ route('tenant.schedules.index', $university->slug) }}"
+                        class="flex items-center gap-3 px-4 py-2 rounded transition-colors @if(request()->routeIs('tenant.schedules.*')) bg-indigo-600 text-white @else text-gray-300 hover:bg-gray-800 hover:text-white @endif">
+                        <span>📅</span>
+                        <span>Schedules</span>
+                    </a>
 
-                <a href="{{ route('tenant.standings.index', $university->slug) }}"
-                    class="flex items-center gap-3 px-4 py-2 rounded transition-colors @if(request()->routeIs('tenant.standings.*')) bg-indigo-600 text-white @else text-gray-300 hover:bg-gray-800 hover:text-white @endif">
-                    <span>🏆</span>
-                    <span>Standings</span>
-                </a>
+                    <a href="{{ route('tenant.standings.index', $university->slug) }}"
+                        class="flex items-center gap-3 px-4 py-2 rounded transition-colors @if(request()->routeIs('tenant.standings.*')) bg-indigo-600 text-white @else text-gray-300 hover:bg-gray-800 hover:text-white @endif">
+                        <span>🏆</span>
+                        <span>Standings</span>
+                    </a>
 
-                @if($university->plan === 'pro')
-                    <div class="my-4 pt-4 border-t border-gray-700">
-                        <p class="px-4 text-xs uppercase tracking-wide text-gray-500 font-semibold">Pro Features</p>
+                    @if($university->plan === 'pro')
+                        <div class="my-4 pt-4 border-t border-gray-700">
+                            <p class="px-4 text-xs uppercase tracking-wide text-gray-500 font-semibold">Pro Features</p>
 
-                        <a href="{{ route('tenant.analytics.index', $university->slug) }}"
-                            class="flex items-center gap-3 px-4 py-2 mt-2 rounded transition-colors @if(request()->routeIs('tenant.analytics.*')) bg-indigo-600 text-white @else text-gray-300 hover:bg-gray-800 hover:text-white @endif">
-                            <span>📊</span>
-                            <span>Analytics</span>
-                            <span class="ml-auto text-xs bg-yellow-600 text-white px-2 py-0.5 rounded">PRO</span>
-                        </a>
+                            <a href="{{ route('tenant.analytics.index', $university->slug) }}"
+                                class="flex items-center gap-3 px-4 py-2 mt-2 rounded transition-colors @if(request()->routeIs('tenant.analytics.*')) bg-indigo-600 text-white @else text-gray-300 hover:bg-gray-800 hover:text-white @endif">
+                                <span>📊</span>
+                                <span>Analytics</span>
+                                <span class="ml-auto text-xs bg-yellow-600 text-white px-2 py-0.5 rounded">PRO</span>
+                            </a>
 
-                        <a href="{{ route('tenant.brackets.index', $university->slug) }}"
-                            class="flex items-center gap-3 px-4 py-2 rounded transition-colors @if(request()->routeIs('tenant.brackets.*')) bg-indigo-600 text-white @else text-gray-300 hover:bg-gray-800 hover:text-white @endif">
-                            <span>🎯</span>
-                            <span>Brackets</span>
-                            <span class="ml-auto text-xs bg-yellow-600 text-white px-2 py-0.5 rounded">PRO</span>
-                        </a>
-                    </div>
+                            <a href="{{ route('tenant.brackets.index', $university->slug) }}"
+                                class="flex items-center gap-3 px-4 py-2 rounded transition-colors @if(request()->routeIs('tenant.brackets.*')) bg-indigo-600 text-white @else text-gray-300 hover:bg-gray-800 hover:text-white @endif">
+                                <span>🎯</span>
+                                <span>Brackets</span>
+                                <span class="ml-auto text-xs bg-yellow-600 text-white px-2 py-0.5 rounded">PRO</span>
+                            </a>
+                        </div>
+                    @endif
+                @else
+                    <a href="{{ route('home') }}"
+                        class="flex items-center gap-3 px-4 py-2 rounded transition-colors @if(request()->routeIs('home')) bg-indigo-600 text-white @else text-gray-300 hover:bg-gray-800 hover:text-white @endif">
+                        <span>🏠</span>
+                        <span>Home</span>
+                    </a>
+                    <a href="{{ route('profile.edit') }}"
+                        class="flex items-center gap-3 px-4 py-2 rounded transition-colors @if(request()->routeIs('profile.edit')) bg-indigo-600 text-white @else text-gray-300 hover:bg-gray-800 hover:text-white @endif">
+                        <span>👤</span>
+                        <span>Profile</span>
+                    </a>
                 @endif
             </nav>
 
@@ -103,7 +118,7 @@ $university = app('current_university');
                     <p class="text-xs text-gray-400">{{ auth()->user()->getRoleNames()->first() }}</p>
                 </div>
 
-                <a href="{{ route('profile.edit') }}" class="block text-sm text-gray-300 hover:text-white transition-colors">
+                <a href="@if($university){{ route('tenant.profile.edit', $university->slug) }}@else{{ route('profile.edit') }}@endif" class="block text-sm text-gray-300 hover:text-white transition-colors">
                     👤 Edit Profile
                 </a>
 
@@ -136,13 +151,15 @@ $university = app('current_university');
                     </div>
 
                     <div class="flex items-center gap-4">
-                        <span class="text-sm font-medium px-3 py-1 rounded @if($university->plan === 'pro') bg-yellow-100 text-yellow-800 @else bg-gray-200 text-gray-800 @endif">
-                            @if($university->plan === 'pro')
-                                PRO PLAN ⭐
-                            @else
-                                BASIC PLAN
-                            @endif
-                        </span>
+                        @if($university)
+                            <span class="text-sm font-medium px-3 py-1 rounded @if($university->plan === 'pro') bg-yellow-100 text-yellow-800 @else bg-gray-200 text-gray-800 @endif">
+                                @if($university->plan === 'pro')
+                                    PRO PLAN ⭐
+                                @else
+                                    BASIC PLAN
+                                @endif
+                            </span>
+                        @endif
 
                         <button class="text-gray-600 hover:text-gray-900">
                             🔔
@@ -193,7 +210,7 @@ $university = app('current_university');
 
                     <!-- Footer -->
                     <footer class="mt-12 pt-6 border-t border-gray-200 text-center text-sm text-gray-500">
-                        ISMS © {{ date('Y') }} · {{ $university->name }}
+                        ISMS © {{ date('Y') }}@if($university) · {{ $university->name }}@endif
                     </footer>
                 </div>
             </main>

@@ -23,9 +23,12 @@ class ScheduleController
             ->orderBy('scheduled_at', 'asc')
             ->paginate(10);
 
+        $sports = Sport::orderBy('name')->get();
+
         return view('tenant.schedules.index', [
             'university' => $university,
             'schedules' => $schedules,
+            'sports' => $sports,
         ]);
     }
 

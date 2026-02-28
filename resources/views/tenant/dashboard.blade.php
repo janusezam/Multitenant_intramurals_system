@@ -197,7 +197,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach(array_slice($sport->standings ?? [], 0, 3) as $idx => $standing)
+                            @foreach(($sport->standings ?? collect())->take(3)->values() as $idx => $standing)
                                 <tr class="border-b border-gray-200 @if($idx === 0) border-l-4 border-l-yellow-400 bg-yellow-50 @elseif($idx === 1) border-l-4 border-l-gray-400 bg-gray-50 @elseif($idx === 2) border-l-4 border-l-orange-400 bg-orange-50 @endif">
                                     <td class="px-4 py-3 font-bold text-gray-900">
                                         @if($idx === 0) 🥇 @elseif($idx === 1) 🥈 @elseif($idx === 2) 🥉 @endif

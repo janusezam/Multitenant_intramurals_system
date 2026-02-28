@@ -18,7 +18,7 @@ class BracketController
     {
         $university = app('current_university');
 
-        $sports = Sport::with(['bracket.bracketMatches' => function ($q) {
+        $sports = Sport::with(['brackets.bracketMatches' => function ($q) {
             $q->with(['teamA', 'teamB', 'winner', 'schedule']);
         }])->get();
 

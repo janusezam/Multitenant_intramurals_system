@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\AdminDashboardController;
 use App\Http\Controllers\Admin\SubscriptionController;
 use App\Http\Controllers\Admin\UniversityController;
 use App\Http\Controllers\Auth\RegisteredUserController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Tenant\MatchResultController;
 use App\Http\Controllers\Tenant\PlayerController;
 use App\Http\Controllers\Tenant\Pro\AnalyticsController;
@@ -84,6 +85,14 @@ Route::middleware(['auth', 'tenant'])
             ->name('standings.index');
         Route::get('standings/{sport}', [StandingController::class, 'show'])
             ->name('standings.show');
+
+        // Profile (Tenant-scoped)
+        Route::get('profile', [ProfileController::class, 'edit'])
+            ->name('profile.edit');
+        Route::patch('profile', [ProfileController::class, 'update'])
+            ->name('profile.update');
+        Route::delete('profile', [ProfileController::class, 'destroy'])
+            ->name('profile.destroy');
     });
 
 // Pro Plan Routes

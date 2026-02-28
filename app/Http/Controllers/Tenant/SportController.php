@@ -86,12 +86,23 @@ class SportController
             'schedules.venue',
             'facilitator',
             'standings.team',
-            'bracket',
+            'brackets',
         ]);
+
+        $teams = $sport->teams;
+        $players = $sport->players;
+        $schedules = $sport->schedules;
+        $standings = $sport->standings->sortByDesc('points');
+        $completedGames = $sport->schedules->where('status', 'completed');
 
         return view('tenant.sports.show', [
             'university' => $university,
             'sport' => $sport,
+            'teams' => $teams,
+            'players' => $players,
+            'schedules' => $schedules,
+            'standings' => $standings,
+            'completedGames' => $completedGames,
         ]);
     }
 
