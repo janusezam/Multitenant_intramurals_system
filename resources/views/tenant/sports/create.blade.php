@@ -1,5 +1,6 @@
 @extends('layouts.app')
 @section('title', 'Add Sport')
+@section('content')
 
 <div class="max-w-2xl mx-auto">
     <div class="bg-white rounded-lg shadow p-8">
@@ -113,3 +114,4 @@
         </form>
     </div>
 </div>
+@endsection

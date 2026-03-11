@@ -1,5 +1,6 @@
 @extends('layouts.app')
 @section('title', 'Record Result')
+@section('content')
 
 <div class="max-w-2xl mx-auto">
     <!-- Game Info Card -->
@@ -88,3 +89,4 @@
         </form>
     </div>
 </div>
+@endsection

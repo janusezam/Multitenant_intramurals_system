@@ -1,6 +1,7 @@
 @extends('layouts.admin')
 @section('title', 'Admin Dashboard')
 
+@section('content')
 <div class="space-y-8">
     <!-- Stat Cards -->
     <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
@@ -145,3 +146,4 @@
         </div>
     @endif
 </div>
+@endsection

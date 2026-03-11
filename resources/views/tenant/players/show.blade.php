@@ -1,5 +1,6 @@
 @extends('layouts.app')
 @section('title', $player->user->name)
+@section('content')
 
 <div class="space-y-6">
     <!-- Player Header -->
@@ -102,3 +103,4 @@
         </div>
     </div>
 </div>
+@endsection

@@ -1,5 +1,6 @@
 @extends('layouts.app')
 @section('title', $sport->name . ' Bracket')
+@section('content')
 
 <div class="space-y-6">
     <!-- Header Card -->
@@ -182,3 +183,4 @@
         </div>
     @endif
 </div>
+@endsection

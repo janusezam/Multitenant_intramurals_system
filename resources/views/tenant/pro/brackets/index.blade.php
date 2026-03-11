@@ -1,5 +1,6 @@
 @extends('layouts.app')
 @section('title', 'Bracket Generator')
+@section('content')
 
 <div class="space-y-6">
     <!-- Header -->
@@ -190,3 +191,4 @@
         @endif
     </div>
 </div>
+@endsection

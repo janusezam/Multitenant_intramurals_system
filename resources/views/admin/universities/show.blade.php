@@ -1,6 +1,7 @@
 @extends('layouts.admin')
 @section('title', 'University Details')
 
+@section('content')
 <div class="space-y-6">
     <!-- Top Card: University Info -->
     <div class="bg-white rounded-lg shadow p-8">
@@ -131,3 +132,4 @@
         </a>
     </div>
 </div>
+@endsection

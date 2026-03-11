@@ -1,5 +1,6 @@
 @extends('layouts.app')
 @section('title', 'Sports')
+@section('content')
 
 <div class="space-y-6">
     <!-- Top Bar -->
@@ -124,3 +125,4 @@
         @endforelse
     </div>
 </div>
+@endsection

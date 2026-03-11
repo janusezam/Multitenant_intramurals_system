@@ -1,5 +1,6 @@
 @extends('layouts.app')
 @section('title', $sport->name . ' Standings')
+@section('content')
 
 <div class="space-y-6">
     <!-- Sport Header -->
@@ -138,3 +139,4 @@
         </div>
     @endif
 </div>
+@endsection

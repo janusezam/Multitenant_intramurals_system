@@ -1,5 +1,6 @@
 @extends('layouts.app')
 @section('title', $venue->name)
+@section('content')
 
 <div class="space-y-6">
     <!-- Venue Header -->
@@ -98,3 +99,4 @@
         @endif
     </div>
 </div>
+@endsection

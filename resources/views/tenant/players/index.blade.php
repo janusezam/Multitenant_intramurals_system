@@ -1,5 +1,6 @@
 @extends('layouts.app')
 @section('title', 'Players')
+@section('content')
 
 <div class="space-y-6">
     <!-- Plan Limit Notice -->
@@ -130,3 +131,4 @@
         {{ $players->links() }}
     </div>
 </div>
+@endsection

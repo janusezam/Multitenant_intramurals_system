@@ -1,5 +1,6 @@
 @extends('layouts.app')
 @section('title', 'Game Details')
+@section('content')
 
 <div class="space-y-6">
     <!-- Match Header Card -->
@@ -136,3 +137,4 @@
         @endif
     @endif
 </div>
+@endsection

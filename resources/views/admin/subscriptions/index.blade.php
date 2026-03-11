@@ -1,6 +1,7 @@
 @extends('layouts.admin')
 @section('title', 'Subscriptions')
 
+@section('content')
 <div class="space-y-6">
     <h1 class="text-2xl font-bold text-gray-900">Subscriptions</h1>
 
@@ -82,3 +83,4 @@
         {{ $subscriptions->links() }}
     </div>
 </div>
+@endsection

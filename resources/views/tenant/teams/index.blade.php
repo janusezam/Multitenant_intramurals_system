@@ -1,5 +1,6 @@
 @extends('layouts.app')
 @section('title', 'Teams')
+@section('content')
 
 <div class="space-y-6">
     <!-- Top Bar -->
@@ -94,3 +95,4 @@
         {{ $teams->links() }}
     </div>
 </div>
+@endsection

@@ -1,5 +1,6 @@
 @extends('layouts.app')
 @section('title', 'Standings')
+@section('content')
 
 <div class="space-y-6">
     <!-- Heading -->
@@ -107,3 +108,4 @@
         </div>
     @endforelse
 </div>
+@endsection

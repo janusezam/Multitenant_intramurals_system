@@ -1,5 +1,6 @@
 @extends('layouts.app')
 @section('title', 'Schedules')
+@section('content')
 
 <div class="space-y-6">
     <!-- Top Bar -->
@@ -168,3 +169,4 @@
         {{ $schedules->links() }}
     </div>
 </div>
+@endsection

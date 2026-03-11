@@ -1,5 +1,6 @@
 @extends('layouts.app')
 @section('title', 'Analytics & Reports')
+@section('content')
 
 <div class="space-y-6">
     <!-- Header -->
@@ -292,3 +293,4 @@
     );
 </script>
 @endpush
+@endsection

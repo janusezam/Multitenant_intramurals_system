@@ -1,6 +1,7 @@
 @extends('layouts.admin')
 @section('title', 'Edit Subscription')
 
+@section('content')
 <div class="max-w-2xl mx-auto">
     <div class="bg-white rounded-lg shadow p-8">
         <h1 class="text-2xl font-bold text-gray-900 mb-6">Edit Subscription</h1>
@@ -85,3 +86,4 @@
         </form>
     </div>
 </div>
+@endsection

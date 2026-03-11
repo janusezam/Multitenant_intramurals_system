@@ -1,6 +1,7 @@
 @extends('layouts.admin')
 @section('title', 'Universities')
 
+@section('content')
 <div class="space-y-6">
     <!-- Top Bar -->
     <div class="flex items-center justify-between">
@@ -137,3 +138,4 @@
         {{ $universities->links() }}
     </div>
 </div>
+@endsection

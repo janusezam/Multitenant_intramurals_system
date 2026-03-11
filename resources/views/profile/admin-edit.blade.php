@@ -1,5 +1,6 @@
 @extends('layouts.admin')
 @section('title', 'Profile')
+@section('content')
 
 <div class="max-w-4xl mx-auto space-y-8">
     <!-- Profile Card -->
@@ -170,3 +171,4 @@
         </div>
     </div>
 </div>
+@endsection
