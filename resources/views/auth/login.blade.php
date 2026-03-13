@@ -8,41 +8,149 @@
 </head>
 <body class="bg-slate-50">
     <div class="flex min-h-screen">
-        <!-- Left Side - Branding -->
-        <div class="hidden lg:flex lg:w-1/2 bg-gradient-to-br from-indigo-600 to-indigo-800 text-white flex-col justify-between p-12">
-            <div>
-                <div class="flex items-center gap-3 mb-4">
-                    <div class="w-12 h-12 rounded-xl bg-white/20 flex items-center justify-center text-white text-2xl font-bold">🏆</div>
-                    <span class="text-2xl font-bold">ISMS</span>
+        <!-- LEFT PANEL -->
+        <div class="hidden lg:flex lg:w-1/2 relative flex-col justify-between p-12 bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900 overflow-hidden">
+
+            <!-- BACKGROUND DECORATION -->
+            <div class="absolute inset-0 overflow-hidden pointer-events-none">
+                <!-- Large blur circle top right -->
+                <div class="absolute -top-40 -right-40 w-96 h-96 rounded-full bg-indigo-500/10 blur-3xl">
                 </div>
-                <p class="text-lg text-indigo-100">Your University Intramurals, Centrally Managed.</p>
+                <!-- Medium blur circle bottom left -->
+                <div class="absolute -bottom-40 -left-20 w-80 h-80 rounded-full bg-purple-500/10 blur-3xl">
+                </div>
+                <!-- Small accent circle middle -->
+                <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 rounded-full bg-indigo-400/5 blur-2xl">
+                </div>
+                <!-- Grid pattern overlay -->
+                <div class="absolute inset-0 opacity-5" style="background-image: linear-gradient(rgba(255,255,255,.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.1) 1px, transparent 1px); background-size: 40px 40px;">
+                </div>
             </div>
 
-            <ul class="space-y-4 text-lg">
-                <li class="flex items-center gap-3">
-                    <span class="text-2xl">✅</span>
-                    <span>Multi-sport management</span>
-                </li>
-                <li class="flex items-center gap-3">
-                    <span class="text-2xl">✅</span>
-                    <span>Team & player registry</span>
-                </li>
-                <li class="flex items-center gap-3">
-                    <span class="text-2xl">✅</span>
-                    <span>Game scheduling</span>
-                </li>
-                <li class="flex items-center gap-3">
-                    <span class="text-2xl">✅</span>
-                    <span>Live standings</span>
-                </li>
-                <li class="flex items-center gap-3">
-                    <span class="text-2xl">✅</span>
-                    <span>Analytics & brackets (Pro)</span>
-                </li>
-            </ul>
+            <!-- TOP: LOGO + BRAND -->
+            <div class="relative z-10">
+                <div class="flex items-center gap-3 mb-2">
+                    <!-- Clean geometric logo mark -->
+                    <div class="w-10 h-10 rounded-xl bg-indigo-500 flex items-center justify-center flex-shrink-0 shadow-lg shadow-indigo-500/30">
+                        <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <span class="text-white font-bold text-xl tracking-tight">ISMS</span>
+                        <span class="block text-indigo-300 text-xs font-medium tracking-widest uppercase">Intramurals Management</span>
+                    </div>
+                </div>
+            </div>
 
-            <div>
-                <a href="/" class="text-indigo-200 hover:text-white font-medium transition-colors">← Back to Home</a>
+            <!-- MIDDLE: HEADLINE + FEATURES -->
+            <div class="relative z-10">
+                <!-- Main headline -->
+                <h1 class="text-4xl font-bold text-white leading-tight tracking-tight mb-4">
+                    Manage Your<br>
+                    University Sports<br>
+                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-purple-400">
+                        Smarter.
+                    </span>
+                </h1>
+
+                <!-- Subtitle -->
+                <p class="text-slate-400 text-base leading-relaxed mb-10 max-w-sm">
+                    The all-in-one platform for university intramural sports — from scheduling to live standings.
+                </p>
+
+                <!-- Feature list — clean, no emojis -->
+                <div class="space-y-3">
+                    <!-- Feature 1 -->
+                    <div class="flex items-center gap-3">
+                        <div class="w-5 h-5 rounded-full bg-indigo-500/20 border border-indigo-500/30 flex items-center justify-center flex-shrink-0">
+                            <div class="w-1.5 h-1.5 rounded-full bg-indigo-400">
+                            </div>
+                        </div>
+                        <span class="text-slate-300 text-sm">
+                            Multi-sport tournament management
+                        </span>
+                    </div>
+
+                    <!-- Feature 2 -->
+                    <div class="flex items-center gap-3">
+                        <div class="w-5 h-5 rounded-full bg-indigo-500/20 border border-indigo-500/30 flex items-center justify-center flex-shrink-0">
+                            <div class="w-1.5 h-1.5 rounded-full bg-indigo-400">
+                            </div>
+                        </div>
+                        <span class="text-slate-300 text-sm">
+                            Team & player registry
+                        </span>
+                    </div>
+
+                    <!-- Feature 3 -->
+                    <div class="flex items-center gap-3">
+                        <div class="w-5 h-5 rounded-full bg-indigo-500/20 border border-indigo-500/30 flex items-center justify-center flex-shrink-0">
+                            <div class="w-1.5 h-1.5 rounded-full bg-indigo-400">
+                            </div>
+                        </div>
+                        <span class="text-slate-300 text-sm">
+                            Live standings & bracket generator
+                        </span>
+                    </div>
+
+                    <!-- Feature 4 -->
+                    <div class="flex items-center gap-3">
+                        <div class="w-5 h-5 rounded-full bg-indigo-500/20 border border-indigo-500/30 flex items-center justify-center flex-shrink-0">
+                            <div class="w-1.5 h-1.5 rounded-full bg-indigo-400">
+                            </div>
+                        </div>
+                        <span class="text-slate-300 text-sm">
+                            Analytics & reports
+                            <span class="text-xs bg-amber-500/20 text-amber-400 px-1.5 py-0.5 rounded-full ml-1">
+                                PRO
+                            </span>
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- BOTTOM: STATS ROW + BACK LINK -->
+            <div class="relative z-10">
+                <!-- Social proof stats -->
+                <div class="flex items-center gap-6 pb-6 mb-6 border-b border-slate-700/50">
+                    <div class="text-center">
+                        <p class="text-white font-bold text-lg leading-none">
+                            3+
+                        </p>
+                        <p class="text-slate-500 text-xs mt-1 leading-none">
+                            Universities
+                        </p>
+                    </div>
+                    <div class="w-px h-8 bg-slate-700">
+                    </div>
+                    <div class="text-center">
+                        <p class="text-white font-bold text-lg leading-none">
+                            50+
+                        </p>
+                        <p class="text-slate-500 text-xs mt-1 leading-none">
+                            Teams
+                        </p>
+                    </div>
+                    <div class="w-px h-8 bg-slate-700">
+                    </div>
+                    <div class="text-center">
+                        <p class="text-white font-bold text-lg leading-none">
+                            500+
+                        </p>
+                        <p class="text-slate-500 text-xs mt-1 leading-none">
+                            Players
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Back to home link -->
+                <a href="{{ route('home') ?? '/' }}" class="inline-flex items-center gap-2 text-slate-500 hover:text-slate-300 text-sm transition-colors">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+                    </svg>
+                    Back to Home
+                </a>
             </div>
         </div>
 

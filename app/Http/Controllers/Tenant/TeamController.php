@@ -88,7 +88,6 @@ class TeamController
         $team->load([
             'sport',
             'coach',
-            'players.user',
             'homeSchedules.venue',
             'homeSchedules.awayTeam',
             'awaySchedules.venue',
@@ -97,10 +96,18 @@ class TeamController
 
         $standing = Standing::where('team_id', $team->id)->first();
 
+        // Fetch players with user relationship
+        $players = $team->players()->with('user')->get();
+
+        // Merge home and away schedules
+        $schedules = $team->homeSchedules->merge($team->awaySchedules)->sortBy('scheduled_at');
+
         return view('tenant.teams.show', [
             'university' => $university,
             'team' => $team,
             'standing' => $standing,
+            'players' => $players,
+            'schedules' => $schedules,
         ]);
     }
 

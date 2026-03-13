@@ -30,6 +30,22 @@ use Illuminate\Support\Facades\Route;
 
 // Public Routes
 Route::get('/', function () {
+    if (auth()->check()) {
+        // If user is super-admin, go to admin dashboard
+        if (auth()->user()->hasRole('super-admin')) {
+            return redirect('/admin/dashboard');
+        }
+        // Otherwise, go to tenant dashboard
+        $university = auth()->user()->university;
+        if ($university) {
+            return redirect('/'.$university->slug.'/dashboard');
+        }
+
+        // Fallback to logout if no university
+        return redirect('/login');
+    }
+
+    // If not authenticated, redirect to login
     return redirect('/login');
 })->name('home');
 
@@ -48,6 +64,13 @@ Route::middleware(['auth', 'role:super-admin'])
         Route::get('/dashboard', [AdminDashboardController::class, 'index'])
             ->name('dashboard');
 
+        // University Admin Account Creation Routes
+        Route::get('universities/{university}/create-admin', [UniversityController::class, 'createAdmin'])
+            ->name('universities.create-admin');
+        Route::post('universities/{university}/store-admin', [UniversityController::class, 'storeAdmin'])
+            ->name('universities.store-admin');
+
+        // Existing universities routes
         Route::resource('universities', UniversityController::class);
         Route::patch('universities/{university}/toggle-active', [UniversityController::class, 'toggleActive'])
             ->name('universities.toggleActive');

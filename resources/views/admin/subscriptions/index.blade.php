@@ -46,7 +46,7 @@
                             <td class="px-6 py-4">
                                 @if($subscription->expires_at->isPast())
                                     <span class="text-red-600 font-semibold">{{ $subscription->expires_at->format('M d, Y') }}</span>
-                                @elseif($subscription->expires_at->diffInDays(now()) <= 30)
+                                @elseif((int) now()->diffInDays($subscription->expires_at) <= 30)
                                     <span class="text-yellow-600 font-semibold">{{ $subscription->expires_at->format('M d, Y') }}</span>
                                 @else
                                     <span class="text-green-600 font-semibold">{{ $subscription->expires_at->format('M d, Y') }}</span>
@@ -57,7 +57,7 @@
                                 @if($subscription->expires_at->isPast())
                                     <span class="inline-block bg-red-100 text-red-800 text-xs font-semibold px-2 py-1 rounded">Expired</span>
                                 @else
-                                    <span class="inline-block bg-green-100 text-green-800 text-xs font-semibold px-2 py-1 rounded">{{ $subscription->expires_at->diffInDays(now()) }} days</span>
+                                    <span class="inline-block bg-green-100 text-green-800 text-xs font-semibold px-2 py-1 rounded">{{ (int) now()->diffInDays($subscription->expires_at) }} days</span>
                                 @endif
                             </td>
                             <td class="px-6 py-4 text-sm">

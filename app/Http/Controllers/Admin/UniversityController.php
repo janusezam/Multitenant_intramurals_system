@@ -5,10 +5,12 @@ namespace App\Http\Controllers\Admin;
 use App\Models\Subscription;
 use App\Models\Team;
 use App\Models\University;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
 
 class UniversityController
@@ -65,8 +67,8 @@ class UniversityController
             'status' => 'active',
         ]);
 
-        return redirect()->route('admin.universities.index')
-            ->with('success', 'University created successfully.');
+        return redirect()->route('admin.universities.create-admin', $university)
+            ->with('success', 'University created! Now create the admin account for '.$university->name);
     }
 
     /**
@@ -76,7 +78,7 @@ class UniversityController
     {
         $university->load([
             'subscription',
-            'users',
+            'users.roles',
             'sports' => fn ($query) => $query->withoutGlobalScopes(),
         ]);
 
@@ -179,5 +181,65 @@ class UniversityController
 
         return redirect()->back()
             ->with('success', $message);
+    }
+
+    /**
+     * Show form to create university admin account
+     */
+    public function createAdmin(University $university): View
+    {
+        return view('admin.universities.create-admin', compact('university'));
+    }
+
+    /**
+     * Store the university admin account
+     */
+    public function storeAdmin(Request $request, University $university): RedirectResponse
+    {
+        $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'email' => [
+                'required',
+                'string',
+                'email',
+                'max:255',
+                'unique:users,email',
+            ],
+            'password' => [
+                'required',
+                'string',
+                'min:8',
+                'confirmed',
+            ],
+        ]);
+
+        // Check if university already has an admin
+        $existingAdmin = User::withoutGlobalScopes()
+            ->where('university_id', $university->id)
+            ->whereHas('roles', function ($q) {
+                $q->where('name', 'university-admin');
+            })
+            ->first();
+
+        if ($existingAdmin) {
+            return back()->withErrors([
+                'email' => 'This university already has an admin account: '.$existingAdmin->email,
+            ]);
+        }
+
+        // Create the university admin user
+        $user = User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+            'university_id' => $university->id,
+        ]);
+
+        // Assign university-admin role
+        $user->assignRole('university-admin');
+
+        return redirect()
+            ->route('admin.universities.show', $university)
+            ->with('success', 'University admin account created! Email: '.$request->email.' · They can now login at /login');
     }
 }

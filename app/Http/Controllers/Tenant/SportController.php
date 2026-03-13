@@ -80,7 +80,6 @@ class SportController
         $university = app('current_university');
 
         $sport->load([
-            'teams.players',
             'schedules.homeTeam',
             'schedules.awayTeam',
             'schedules.venue',
@@ -89,7 +88,9 @@ class SportController
             'brackets',
         ]);
 
-        $teams = $sport->teams;
+        // Load teams with player count
+        $teams = $sport->teams()->withCount('players')->get();
+
         $players = $sport->players;
         $schedules = $sport->schedules;
         $standings = $sport->standings->sortByDesc('points');

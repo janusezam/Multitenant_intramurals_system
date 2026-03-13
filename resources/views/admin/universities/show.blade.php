@@ -66,7 +66,58 @@
         </div>
     </div>
 
+    <!-- University Admin Account Section -->
+    @php
+        $universityAdmin = $university->users
+            ->filter(fn($u) => $u->hasRole('university-admin'))
+            ->first();
+    @endphp
+
+    <div class="bg-white rounded-lg shadow">
+        <div class="p-6 border-b border-gray-200 flex items-center justify-between">
+            <div>
+                <h2 class="text-lg font-bold text-gray-900">👑 University Admin Account</h2>
+                <p class="text-sm text-gray-600 mt-0.5">The administrator who manages this university's ISMS</p>
+            </div>
+            @if(!$universityAdmin)
+                <a href="{{ route('admin.universities.create-admin', $university) }}" class="inline-flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-medium px-4 py-2 rounded-lg transition-colors">
+                    + Create Admin Account
+                </a>
+            @endif
+        </div>
+
+        <div class="p-6">
+            @if($universityAdmin)
+                {{-- Admin exists: show their info --}}
+                <div class="flex items-center gap-4">
+                    <div class="w-12 h-12 rounded-full bg-indigo-500 flex items-center justify-center text-white text-lg font-bold flex-shrink-0">
+                        {{ strtoupper(substr($universityAdmin->name, 0, 1)) }}
+                    </div>
+                    <div class="flex-1 min-w-0">
+                        <p class="text-base font-semibold text-gray-900">{{ $universityAdmin->name }}</p>
+                        <p class="text-sm text-gray-600">{{ $universityAdmin->email }}</p>
+                        <p class="text-xs text-gray-500 mt-1">Member since: {{ $universityAdmin->created_at->format('M d, Y') }}</p>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-indigo-50 text-indigo-700">👑 University Admin</span>
+                        <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-green-50 text-green-700">✅ Active</span>
+                    </div>
+                </div>
+            @else
+                {{-- No admin yet: show warning --}}
+                <div class="flex items-center gap-4 bg-amber-50 border border-amber-200 rounded-lg p-4">
+                    <span class="text-3xl flex-shrink-0">⚠️</span>
+                    <div>
+                        <p class="text-sm font-semibold text-amber-800">No Admin Account Yet</p>
+                        <p class="text-sm text-amber-700 mt-0.5">This university doesn't have an admin account. Click "Create Admin Account" to set one up so they can login and manage their ISMS.</p>
+                    </div>
+                </div>
+            @endif
+        </div>
+    </div>
+
     <!-- Stats Row -->
+
     <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
         <div class="bg-white rounded-lg shadow p-4">
             <p class="text-sm text-gray-600">Total Users</p>
