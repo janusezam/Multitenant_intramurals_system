@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Tenant;
 
+use App\Models\Player;
 use App\Models\Schedule;
 use App\Models\Sport;
 use App\Models\Team;
@@ -18,9 +19,89 @@ class ScheduleController
     public function index(): View
     {
         $university = app('current_university');
+        $user = auth()->user();
 
-        $schedules = Schedule::with(['sport', 'homeTeam', 'awayTeam', 'venue'])
-            ->orderBy('scheduled_at', 'asc')
+        if ($user->hasRole('team-coach')) {
+            // Coach sees ONLY their team's games
+            $myTeam = Team::where('coach_id', $user->id)
+                ->first();
+
+            $schedules = Schedule::with([
+                'sport', 'venue',
+                'homeTeam', 'awayTeam', 'result',
+            ])
+                ->when($myTeam, function ($q) use ($myTeam) {
+                    $q->where('home_team_id', $myTeam->id)
+                        ->orWhere('away_team_id', $myTeam->id);
+                })
+                ->when(! $myTeam, fn ($q) => $q->whereRaw('1 = 0'))
+                ->orderBy('scheduled_at', 'desc')
+                ->paginate(10);
+
+            $sports = collect();
+
+            return view('tenant.schedules.index', [
+                'university' => $university,
+                'schedules' => $schedules,
+                'sports' => $sports,
+            ]);
+        }
+
+        if ($user->hasRole('sports-facilitator')) {
+            // Facilitator sees ONLY their sport's games
+            $sport = Sport::where('facilitator_id', $user->id)
+                ->first();
+
+            $schedules = Schedule::with([
+                'sport', 'venue',
+                'homeTeam', 'awayTeam', 'result',
+            ])
+                ->when($sport, fn ($q) => $q->where('sport_id', $sport->id))
+                ->when(! $sport, fn ($q) => $q->whereRaw('1 = 0'))
+                ->orderBy('scheduled_at', 'desc')
+                ->paginate(10);
+
+            $sports = $sport ? collect([$sport]) : collect();
+
+            return view('tenant.schedules.index', [
+                'university' => $university,
+                'schedules' => $schedules,
+                'sports' => $sports,
+            ]);
+        }
+
+        // Student player sees only their team's games
+        if ($user->hasRole('student-player')) {
+            $myPlayer = Player::where('user_id', $user->id)
+                ->first();
+
+            $schedules = Schedule::with([
+                'sport', 'venue',
+                'homeTeam', 'awayTeam', 'result',
+            ])
+                ->when($myPlayer, function ($q) use ($myPlayer) {
+                    $q->where('home_team_id', $myPlayer->team_id)
+                        ->orWhere('away_team_id', $myPlayer->team_id);
+                })
+                ->when(! $myPlayer, fn ($q) => $q->whereRaw('1 = 0'))
+                ->orderBy('scheduled_at', 'desc')
+                ->paginate(10);
+
+            $sports = collect();
+
+            return view('tenant.schedules.index', [
+                'university' => $university,
+                'schedules' => $schedules,
+                'sports' => $sports,
+            ]);
+        }
+
+        // University Admin sees ALL schedules
+        $schedules = Schedule::with([
+            'sport', 'venue',
+            'homeTeam', 'awayTeam', 'result',
+        ])
+            ->orderBy('scheduled_at', 'desc')
             ->paginate(10);
 
         $sports = Sport::orderBy('name')->get();
@@ -57,6 +138,19 @@ class ScheduleController
     public function store(Request $request): RedirectResponse
     {
         $university = app('current_university');
+        $user = auth()->user();
+
+        // If facilitator, force sport_id to their sport
+        if ($user->hasRole('sports-facilitator')) {
+            $sport = Sport::where('facilitator_id', $user->id)
+                ->first();
+            if (! $sport) {
+                return back()->with('error',
+                    'You are not assigned to any sport.');
+            }
+            // Override sport_id with their sport
+            $request->merge(['sport_id' => $sport->id]);
+        }
 
         $validated = $request->validate([
             'sport_id' => 'required|exists:sports,id',
@@ -110,6 +204,38 @@ class ScheduleController
     public function show(string $university, Schedule $schedule): View
     {
         $university = app('current_university');
+        $user = auth()->user();
+
+        // Coach can only view their team's games
+        if ($user->hasRole('team-coach')) {
+            $myTeam = Team::where('coach_id', $user->id)
+                ->first();
+            if (! $myTeam ||
+                ($schedule->home_team_id !== $myTeam->id &&
+                 $schedule->away_team_id !== $myTeam->id)) {
+                abort(403, 'You can only view your team\'s games.');
+            }
+        }
+
+        // Facilitator can only view their sport's games
+        if ($user->hasRole('sports-facilitator')) {
+            $sport = Sport::where('facilitator_id', $user->id)
+                ->first();
+            if (! $sport || $schedule->sport_id !== $sport->id) {
+                abort(403, 'You can only view your sport\'s games.');
+            }
+        }
+
+        // Student player can only view their team's games
+        if ($user->hasRole('student-player')) {
+            $myPlayer = Player::where('user_id', $user->id)
+                ->first();
+            if (! $myPlayer ||
+                ($schedule->home_team_id !== $myPlayer->team_id &&
+                 $schedule->away_team_id !== $myPlayer->team_id)) {
+                abort(403, 'You can only view your team\'s games.');
+            }
+        }
 
         $schedule->load(['sport', 'homeTeam', 'awayTeam', 'venue', 'matchResult']);
 
@@ -125,6 +251,21 @@ class ScheduleController
     public function edit(string $university, Schedule $schedule): View
     {
         $university = app('current_university');
+        $user = auth()->user();
+
+        // Facilitator can only edit their sport's games
+        if ($user->hasRole('sports-facilitator')) {
+            $sport = Sport::where('facilitator_id', $user->id)
+                ->first();
+            if (! $sport || $schedule->sport_id !== $sport->id) {
+                abort(403, 'You can only edit your sport\'s schedules.');
+            }
+        }
+
+        // Coach cannot edit schedules
+        if ($user->hasRole('team-coach')) {
+            abort(403, 'Coaches cannot edit schedules.');
+        }
 
         if (in_array($schedule->status, ['completed', 'cancelled'])) {
             return redirect()->back()
@@ -150,6 +291,21 @@ class ScheduleController
     public function update(Request $request, string $university, Schedule $schedule): RedirectResponse
     {
         $university = app('current_university');
+        $user = auth()->user();
+
+        // Facilitator can only update their sport's games
+        if ($user->hasRole('sports-facilitator')) {
+            $sport = Sport::where('facilitator_id', $user->id)
+                ->first();
+            if (! $sport || $schedule->sport_id !== $sport->id) {
+                abort(403, 'You can only update your sport\'s schedules.');
+            }
+        }
+
+        // Coach cannot update schedules
+        if ($user->hasRole('team-coach')) {
+            abort(403, 'Coaches cannot update schedules.');
+        }
 
         $validated = $request->validate([
             'sport_id' => 'required|exists:sports,id',
@@ -203,6 +359,21 @@ class ScheduleController
     public function destroy(string $university, Schedule $schedule): RedirectResponse
     {
         $university = app('current_university');
+        $user = auth()->user();
+
+        // Facilitator can only delete their sport's games
+        if ($user->hasRole('sports-facilitator')) {
+            $sport = Sport::where('facilitator_id', $user->id)
+                ->first();
+            if (! $sport || $schedule->sport_id !== $sport->id) {
+                abort(403, 'You can only delete your sport\'s schedules.');
+            }
+        }
+
+        // Coach cannot delete schedules
+        if ($user->hasRole('team-coach')) {
+            abort(403, 'Coaches cannot delete schedules.');
+        }
 
         if ($schedule->matchResult) {
             return redirect()->back()

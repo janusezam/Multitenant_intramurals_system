@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Tenant;
 
 use App\Models\Sport;
+use App\Models\Team;
 use App\Models\User;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
@@ -17,7 +18,39 @@ class SportController
     public function index(): View
     {
         $university = app('current_university');
+        $user = auth()->user();
 
+        if ($user->hasRole('sports-facilitator')) {
+            // Facilitator sees ONLY their assigned sport
+            $sports = Sport::with(['facilitator'])
+                ->withCount(['teams', 'schedules', 'players'])
+                ->where('facilitator_id', $user->id)
+                ->paginate(10);
+
+            return view('tenant.sports.index', [
+                'university' => $university,
+                'sports' => $sports,
+            ]);
+        }
+
+        if ($user->hasRole('team-coach')) {
+            // Coach sees only the sport of their team
+            $myTeam = Team::where('coach_id', $user->id)
+                ->first();
+
+            $sports = Sport::with(['facilitator'])
+                ->withCount(['teams', 'schedules', 'players'])
+                ->when($myTeam, fn ($q) => $q->where('id', $myTeam->sport_id))
+                ->when(! $myTeam, fn ($q) => $q->whereRaw('1 = 0'))
+                ->paginate(10);
+
+            return view('tenant.sports.index', [
+                'university' => $university,
+                'sports' => $sports,
+            ]);
+        }
+
+        // University Admin sees ALL sports
         $sports = Sport::withCount(['teams', 'schedules', 'players'])
             ->with('facilitator')
             ->paginate(10);
@@ -113,6 +146,12 @@ class SportController
     public function edit(string $university, Sport $sport): View
     {
         $university = app('current_university');
+        $user = auth()->user();
+
+        // Only admin can modify sports
+        if (! $user->hasRole('university-admin')) {
+            abort(403, 'Only university admins can manage sports.');
+        }
 
         $facilitators = User::role('sports-facilitator')->get();
 
@@ -129,6 +168,12 @@ class SportController
     public function update(Request $request, string $university, Sport $sport): RedirectResponse
     {
         $university = app('current_university');
+        $user = auth()->user();
+
+        // Only admin can modify sports
+        if (! $user->hasRole('university-admin')) {
+            abort(403, 'Only university admins can manage sports.');
+        }
 
         $validated = $request->validate([
             'name' => [
@@ -157,6 +202,12 @@ class SportController
     public function destroy(string $university, Sport $sport): RedirectResponse
     {
         $university = app('current_university');
+        $user = auth()->user();
+
+        // Only admin can modify sports
+        if (! $user->hasRole('university-admin')) {
+            abort(403, 'Only university admins can manage sports.');
+        }
 
         if ($sport->schedules()->where('status', 'ongoing')->exists()) {
             return redirect()->back()

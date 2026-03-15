@@ -18,7 +18,39 @@ class TeamController
     public function index(): View
     {
         $university = app('current_university');
+        $user = auth()->user();
 
+        if ($user->hasRole('team-coach')) {
+            // Coach sees ONLY their assigned team
+            $teams = Team::with(['sport', 'coach'])
+                ->withCount('players')
+                ->where('coach_id', $user->id)
+                ->paginate(10);
+
+            return view('tenant.teams.index', [
+                'university' => $university,
+                'teams' => $teams,
+            ]);
+        }
+
+        if ($user->hasRole('sports-facilitator')) {
+            // Facilitator sees only teams in their sport
+            $sport = Sport::where('facilitator_id', $user->id)
+                ->first();
+
+            $teams = Team::with(['sport', 'coach'])
+                ->withCount('players')
+                ->when($sport, fn ($q) => $q->where('sport_id', $sport->id))
+                ->when(! $sport, fn ($q) => $q->whereRaw('1 = 0'))
+                ->paginate(10);
+
+            return view('tenant.teams.index', [
+                'university' => $university,
+                'teams' => $teams,
+            ]);
+        }
+
+        // University Admin sees ALL teams
         $teams = Team::with(['sport', 'coach'])
             ->withCount('players')
             ->paginate(10);
@@ -84,6 +116,23 @@ class TeamController
     public function show(string $university, Team $team): View
     {
         $university = app('current_university');
+        $user = auth()->user();
+
+        // Coach can only view their own team
+        if ($user->hasRole('team-coach')) {
+            if ($team->coach_id !== $user->id) {
+                abort(403, 'You can only view your own team.');
+            }
+        }
+
+        // Facilitator can only view teams in their sport
+        if ($user->hasRole('sports-facilitator')) {
+            $sport = Sport::where('facilitator_id', $user->id)
+                ->first();
+            if (! $sport || $team->sport_id !== $sport->id) {
+                abort(403, 'You can only view teams in your sport.');
+            }
+        }
 
         $team->load([
             'sport',
@@ -117,6 +166,12 @@ class TeamController
     public function edit(string $university, Team $team): View
     {
         $university = app('current_university');
+        $user = auth()->user();
+
+        // Only admin can edit teams
+        if (! $user->hasRole('university-admin')) {
+            abort(403, 'Only university admins can edit teams.');
+        }
 
         $sports = Sport::orderBy('name')->get();
         $coaches = User::role('team-coach')->orderBy('name')->get();
@@ -135,6 +190,12 @@ class TeamController
     public function update(Request $request, string $university, Team $team): RedirectResponse
     {
         $university = app('current_university');
+        $user = auth()->user();
+
+        // Only admin can update teams
+        if (! $user->hasRole('university-admin')) {
+            abort(403, 'Only university admins can update teams.');
+        }
 
         $validated = $request->validate([
             'name' => 'required|string|max:100',
@@ -154,6 +215,12 @@ class TeamController
     public function destroy(string $university, Team $team): RedirectResponse
     {
         $university = app('current_university');
+        $user = auth()->user();
+
+        // Only admin can delete teams
+        if (! $user->hasRole('university-admin')) {
+            abort(403, 'Only university admins can delete teams.');
+        }
 
         $hasActiveSchedules = $team->homeSchedules()
             ->whereIn('status', ['scheduled', 'ongoing'])

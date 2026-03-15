@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Tenant;
 
 use App\Models\MatchResult;
 use App\Models\Schedule;
+use App\Models\Sport;
 use App\Models\Standing;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
@@ -17,6 +18,24 @@ class MatchResultController
     public function create(string $university, Schedule $schedule): View
     {
         $university = app('current_university');
+        $user = auth()->user();
+
+        // Only admin and facilitator can manage results
+        if (! $user->hasAnyRole([
+            'university-admin',
+            'sports-facilitator',
+        ])) {
+            abort(403, 'Only admins and facilitators can manage match results.');
+        }
+
+        // Facilitator can only record results for their own sport
+        if ($user->hasRole('sports-facilitator')) {
+            $sport = Sport::where('facilitator_id', auth()->id())->first();
+
+            if (! $sport || $schedule->sport_id !== $sport->id) {
+                abort(403, 'You can only record results for your sport\'s games.');
+            }
+        }
 
         if ($schedule->matchResult) {
             return redirect()->route('tenant.schedules.show', [
@@ -44,6 +63,24 @@ class MatchResultController
     public function store(Request $request, string $university, Schedule $schedule): RedirectResponse
     {
         $university = app('current_university');
+        $user = auth()->user();
+
+        // Only admin and facilitator can manage results
+        if (! $user->hasAnyRole([
+            'university-admin',
+            'sports-facilitator',
+        ])) {
+            abort(403, 'Only admins and facilitators can manage match results.');
+        }
+
+        // Facilitator can only record results for their own sport
+        if ($user->hasRole('sports-facilitator')) {
+            $sport = Sport::where('facilitator_id', auth()->id())->first();
+
+            if (! $sport || $schedule->sport_id !== $sport->id) {
+                abort(403, 'You can only record results for your sport\'s games.');
+            }
+        }
 
         $validated = $request->validate([
             'home_score' => 'required|integer|min:0',
@@ -88,6 +125,24 @@ class MatchResultController
     public function edit(string $university, Schedule $schedule): View
     {
         $university = app('current_university');
+        $user = auth()->user();
+
+        // Only admin and facilitator can manage results
+        if (! $user->hasAnyRole([
+            'university-admin',
+            'sports-facilitator',
+        ])) {
+            abort(403, 'Only admins and facilitators can manage match results.');
+        }
+
+        // Facilitator can only edit results for their own sport
+        if ($user->hasRole('sports-facilitator')) {
+            $sport = Sport::where('facilitator_id', auth()->id())->first();
+
+            if (! $sport || $schedule->sport_id !== $sport->id) {
+                abort(403, 'You can only edit results for your sport\'s games.');
+            }
+        }
 
         $schedule->load('matchResult');
 
@@ -108,6 +163,24 @@ class MatchResultController
     public function update(Request $request, string $university, Schedule $schedule): RedirectResponse
     {
         $university = app('current_university');
+        $user = auth()->user();
+
+        // Only admin and facilitator can manage results
+        if (! $user->hasAnyRole([
+            'university-admin',
+            'sports-facilitator',
+        ])) {
+            abort(403, 'Only admins and facilitators can manage match results.');
+        }
+
+        // Facilitator can only update results for their own sport
+        if ($user->hasRole('sports-facilitator')) {
+            $sport = Sport::where('facilitator_id', auth()->id())->first();
+
+            if (! $sport || $schedule->sport_id !== $sport->id) {
+                abort(403, 'You can only update results for your sport\'s games.');
+            }
+        }
 
         $validated = $request->validate([
             'home_score' => 'required|integer|min:0',
