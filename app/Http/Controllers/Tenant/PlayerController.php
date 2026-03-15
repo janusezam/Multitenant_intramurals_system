@@ -76,7 +76,8 @@ class PlayerController
         $teams = Team::with('sport')->orderBy('name')->get();
 
         $existingPlayerUserIds = Player::pluck('user_id')->toArray();
-        $availableUsers = User::whereNotIn('id', $existingPlayerUserIds)
+        $availableUsers = User::where('university_id', $university->id)
+            ->whereNotIn('id', $existingPlayerUserIds)
             ->orderBy('name')
             ->get();
 
@@ -105,6 +106,12 @@ class PlayerController
             'jersey_number' => 'nullable|string|max:10',
             'position' => 'nullable|string|max:50',
         ]);
+
+        // Verify selected user belongs to current university
+        $selectedUser = User::find($validated['user_id']);
+        if (! $selectedUser || $selectedUser->university_id !== $university->id) {
+            abort(403, 'The selected user does not belong to your university.');
+        }
 
         // Check jersey number uniqueness per team
         if ($validated['jersey_number']) {

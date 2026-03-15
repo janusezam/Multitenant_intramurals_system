@@ -28,7 +28,7 @@ class ScheduleController
 
             $schedules = Schedule::with([
                 'sport', 'venue',
-                'homeTeam', 'awayTeam', 'result',
+                'homeTeam', 'awayTeam', 'matchResult',
             ])
                 ->when($myTeam, function ($q) use ($myTeam) {
                     $q->where('home_team_id', $myTeam->id)
@@ -54,7 +54,7 @@ class ScheduleController
 
             $schedules = Schedule::with([
                 'sport', 'venue',
-                'homeTeam', 'awayTeam', 'result',
+                'homeTeam', 'awayTeam', 'matchResult',
             ])
                 ->when($sport, fn ($q) => $q->where('sport_id', $sport->id))
                 ->when(! $sport, fn ($q) => $q->whereRaw('1 = 0'))
@@ -77,7 +77,7 @@ class ScheduleController
 
             $schedules = Schedule::with([
                 'sport', 'venue',
-                'homeTeam', 'awayTeam', 'result',
+                'homeTeam', 'awayTeam', 'matchResult',
             ])
                 ->when($myPlayer, function ($q) use ($myPlayer) {
                     $q->where('home_team_id', $myPlayer->team_id)
@@ -99,7 +99,7 @@ class ScheduleController
         // University Admin sees ALL schedules
         $schedules = Schedule::with([
             'sport', 'venue',
-            'homeTeam', 'awayTeam', 'result',
+            'homeTeam', 'awayTeam', 'matchResult',
         ])
             ->orderBy('scheduled_at', 'desc')
             ->paginate(10);
